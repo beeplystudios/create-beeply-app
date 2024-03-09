@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/index.mjs",
   "types": "dist/index.d.mts",
+  "private": false,
   "bin": {
     "create-beeply-app": "dist/index.mjs"
   },
