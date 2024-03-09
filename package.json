@@ -10,8 +10,8 @@
   "scripts": {
     "dev": "tsup src/index.ts --watch --dts --format esm --out-dir dist",
     "lint": "tsc",
-    "ci": "lint && build",
-    "release": "ci && changeset publish",
+    "ci": "pnpm run lint && pnpm run build",
+    "release": "pnpm run ci && changeset publish",
     "build": "tsup src/index.ts --dts --format esm --out-dir dist"
   },
   "keywords": [],
