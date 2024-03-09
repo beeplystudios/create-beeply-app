@@ -1,0 +1,22 @@
+{
+  "name": "create-beeply-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.mjs",
+  "types": "dist/index.d.mts",
+  "bin": {
+    "create-beeply-app": "dist/index.mjs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsup src/index.ts --watch --dts --format esm --out-dir dist",
+    "build": "tsup src/index.ts --dts --format esm --out-dir dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.2"
+  }
+}
