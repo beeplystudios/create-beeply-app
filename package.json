@@ -8,8 +8,10 @@
     "create-beeply-app": "dist/index.mjs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsup src/index.ts --watch --dts --format esm --out-dir dist",
+    "lint": "tsc",
+    "ci": "lint && build",
+    "release": "ci && changeset publish",
     "build": "tsup src/index.ts --dts --format esm --out-dir dist"
   },
   "keywords": [],
@@ -18,5 +20,8 @@
   "devDependencies": {
     "tsup": "^8.0.2",
     "typescript": "^5.4.2"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.27.1"
   }
 }
