@@ -20,9 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "tsup": "^8.0.2",
-    "typescript": "^5.4.2"
-  },
-  "dependencies": {
+    "typescript": "^5.4.2",
     "@changesets/cli": "^2.27.1"
   }
 }
