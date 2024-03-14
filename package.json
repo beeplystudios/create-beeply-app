@@ -2,11 +2,12 @@
   "name": "create-beeply-app",
   "version": "0.0.1",
   "description": "",
-  "main": "dist/index.mjs",
-  "types": "dist/index.d.mts",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "private": false,
   "bin": {
-    "create-beeply-app": "dist/index.mjs"
+    "create-beeply-app": "dist/index.js"
   },
   "scripts": {
     "dev": "tsup src/index.ts --watch --dts --format esm --out-dir dist",
@@ -19,8 +20,17 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@changesets/cli": "^2.27.1",
+    "@types/node": "^20.11.25",
     "tsup": "^8.0.2",
-    "typescript": "^5.4.2",
-    "@changesets/cli": "^2.27.1"
+    "typescript": "^5.4.2"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.7.0",
+    "@types/fs-extra": "^11.0.4",
+    "chalk": "^5.3.0",
+    "fs-extra": "^11.2.0",
+    "ts-morph": "^22.0.0",
+    "type-fest": "^4.12.0"
   }
 }

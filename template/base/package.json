@@ -1,0 +1,31 @@
+{
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "dotenv -e .env vinxi dev",
+    "start": "dotenv -e .env vinxi start",
+    "build": "dotenv -e.env vinxi build"
+  },
+  "dependencies": {
+    "hono": "^4.0.10",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vinxi": "^0.3.10"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.56",
+    "@types/react-dom": "^18.2.19",
+    "@tanstack/react-router": "^1.19.13",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
+    "@vitejs/plugin-react": "^4.2.1",
+    "dotenv-cli": "^7.4.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.4",
+    "vite-tsconfig-paths": "^4.3.1"
+  }
+}
