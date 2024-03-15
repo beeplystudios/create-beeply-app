@@ -4,11 +4,9 @@ import chalk from "chalk";
 import { userInfo } from "node:os";
 import { getOpts } from "./cli/get-opts.js";
 import { scaffoldProject } from "./helpers/scaffold.js";
-import { PackageJson } from "type-fest";
 
 declare global {
   var PROJECT_DIR: string;
-  var PACKAGE_JSON: PackageJson;
 }
 
 const main = async () => {

@@ -9,7 +9,7 @@ import { RouterProvider } from "@tanstack/react-router";
 const rootElement = document.getElementById("root")!;
 
 if (!rootElement.innerHTML) {
-  const router = createRouter();
+  const router = createRouter({});
   const root = ReactDOM.createRoot(rootElement);
 
   root.render(

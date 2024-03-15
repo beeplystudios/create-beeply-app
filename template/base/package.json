@@ -8,6 +8,7 @@
     "build": "dotenv -e.env vinxi build"
   },
   "dependencies": {
+    "@tanstack/react-router": "^1.19.15",
     "hono": "^4.0.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -16,7 +17,6 @@
   "devDependencies": {
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
-    "@tanstack/react-router": "^1.19.13",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "@vitejs/plugin-react": "^4.2.1",

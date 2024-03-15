@@ -1,7 +1,6 @@
 import fsExtra from "fs-extra";
 import path from "path";
 import { PKG_ROOT } from "../consts.js";
-import { dependencyVersionMap } from "../helpers/dep-map.js";
 import {
   buildPathWithBase,
   buildProjectPath,
@@ -19,16 +18,4 @@ export const addPrismaFiles = () => {
     buildProjectPath()("docker-compose.yml")
   );
   fsExtra.copyFileSync(buildDbPath("client.ts"), buildServerPath()("db.ts"));
-
-  PACKAGE_JSON.scripts = {
-    ...PACKAGE_JSON.scripts,
-    postinstall: "prisma generate",
-    "db:push": "prisma db push",
-    "db:reset": "prisma migrate reset && prisma db push",
-  };
-
-  PACKAGE_JSON.devDependencies = {
-    ...PACKAGE_JSON.devDependencies,
-    prisma: dependencyVersionMap.prisma,
-  };
 };

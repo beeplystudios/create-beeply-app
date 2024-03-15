@@ -1,15 +1,13 @@
+import fsExtra from "fs-extra";
 import path from "path";
 import { PKG_ROOT } from "../consts.js";
-import fsExtra from "fs-extra";
-import { loadPkgJson } from "../helpers/pkg-json.js";
-import { dependencyVersionMap } from "../helpers/dep-map.js";
-import { updateFile } from "../helpers/update-file.js";
 import {
   buildAppPath,
   buildPathWithBase,
   buildProjectPath,
   buildServerPath,
 } from "../helpers/build-path.js";
+import { updateFile } from "../helpers/update-file.js";
 
 const PRISMA_MODELS = `
 
@@ -39,7 +37,7 @@ model OAuthAccount {
 }
 `;
 
-export const addLuciaFiles = () => {
+export const addLuciaFiles = (usingTrpc: boolean) => {
   fsExtra.copyFileSync(
     path.join(PKG_ROOT, "template", "extras", "constants.ts"),
     buildProjectPath()("src", "constants.ts")
@@ -50,6 +48,13 @@ export const addLuciaFiles = () => {
   );
 
   fsExtra.copySync(buildAuthPath("server"), buildServerPath()("auth"));
+
+  if (usingTrpc) {
+    fsExtra.copyFileSync(
+      buildAuthPath("auth-trpc-middleware.ts"),
+      buildServerPath()("auth", "server", "authed-procedure.ts")
+    );
+  }
 
   fsExtra.copyFileSync(
     buildAuthPath("client", "sign-in-view.tsx"),
@@ -75,16 +80,4 @@ export const addLuciaFiles = () => {
     path: buildProjectPath()("prisma", "schema.prisma"),
     append: PRISMA_MODELS,
   });
-
-  // updateFile({
-  //   path: buildServerPath()("hono.ts"),
-  //   prepend: AUTH_IMPORTS,
-  //   append: AUTH_HANDLER,
-  // });
-
-  PACKAGE_JSON.dependencies = {
-    ...PACKAGE_JSON.dependencies,
-    ...dependencyVersionMap.lucia,
-    ...dependencyVersionMap.typebox,
-  };
 };

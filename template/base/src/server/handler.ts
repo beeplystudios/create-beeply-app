@@ -1,3 +1,4 @@
+import "./env";
 import { eventHandler, toWebRequest } from "vinxi/http";
 import { hono } from "./hono";
 
