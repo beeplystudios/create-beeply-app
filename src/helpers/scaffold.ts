@@ -13,30 +13,36 @@ import { createRouterTransformer } from "../transformers/create-router-transform
 import { envTypeTransformer } from "../transformers/env-type-transformer.js";
 import { honoHandlerTransformer } from "../transformers/hono-handler-transformer.js";
 import { pkgJsonTransformer } from "../transformers/pkg-json-transformer.js";
-import { rootRouteTransformer } from "../transformers/root-route-transformer.js";
 import { routeTreeTransformer } from "../transformers/route-tree-transformer.js";
 import { routerContextTransformer } from "../transformers/router-context-transformer.js";
 import { serverEntryTransformer } from "../transformers/server-entry-transformer.js";
 import { trpcContextTransformer } from "../transformers/trpc-context-transformer.js";
 import { buildAndCommitEnv } from "./build-env.js";
 import { buildProjectPath } from "./build-path.js";
+import { homeViewTransformer } from "../transformers/home-view-transformer.js";
 
 const TRANSFORMERS = [
   createRouterTransformer,
   envTypeTransformer,
   honoHandlerTransformer,
   pkgJsonTransformer,
-  rootRouteTransformer,
   routeTreeTransformer,
   routerContextTransformer,
   serverEntryTransformer,
   trpcContextTransformer,
+  homeViewTransformer,
 ];
 
 export const scaffoldProject = async (opts: Options) => {
   globalThis.PROJECT_DIR = path.join(process.cwd(), opts.name);
 
   fs.copySync(path.join(PKG_ROOT, "template", "base"), PROJECT_DIR);
+
+  if (opts.shouldSSR) addSSRFiles();
+  if (opts.shouldUseTailwind) addTailwindFiles();
+  if (opts.shouldUsePrisma) addPrismaFiles();
+  if (opts.shouldUseTRPC) addTRPCFiles();
+  if (opts.shouldUseAuth) addLuciaFiles(opts.shouldUseTRPC);
 
   const project = new Project({
     manipulationSettings: {
@@ -45,12 +51,6 @@ export const scaffoldProject = async (opts: Options) => {
       useTrailingCommas: true,
     },
   });
-
-  if (opts.shouldSSR) addSSRFiles();
-  if (opts.shouldUseTailwind) addTailwindFiles();
-  if (opts.shouldUsePrisma) addPrismaFiles();
-  if (opts.shouldUseTRPC) addTRPCFiles();
-  if (opts.shouldUseAuth) addLuciaFiles(opts.shouldUseTRPC);
 
   project.addSourceFilesFromTsConfig(
     path.join(buildProjectPath()("tsconfig.json"))

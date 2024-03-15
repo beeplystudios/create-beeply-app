@@ -23,7 +23,7 @@ export const honoHandlerTransformer: FileTransformer = {
         },
       ]);
 
-      const [statment] = honoFile.addStatements((writer) => {
+      honoFile.addStatements((writer) => {
         const writeOptions = Writers.object({
           endpoint: `"/api/trpc"`,
           router: "appRouter",
@@ -39,8 +39,6 @@ export const honoHandlerTransformer: FileTransformer = {
         writeOptions(writer);
         writer.write(")").writeLine(");").blankLine();
       });
-
-      statment?.formatText();
     }
 
     if (opts.shouldUseAuth) {

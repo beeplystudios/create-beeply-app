@@ -1,0 +1,125 @@
+@import url("https://unpkg.com/tailwindcss@3.4.1/src/css/preflight.css");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #fffbeb;
+}
+
+.root-wrapper {
+  max-width: 64rem;
+  margin-inline: auto;
+}
+
+.content-wrapper {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  padding: 2rem;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header {
+  font-weight: 600;
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
+.highlight-amber {
+  color: rgb(245 158 11);
+}
+
+.get-started {
+  margin-top: 1rem;
+  color: rgb(115 115 115);
+  white-space: pre-line;
+}
+
+.get-started code {
+  padding: 0.25rem 0.5rem;
+  font-family: monospace;
+  font-weight: 500;
+  padding-inline: 0.5rem;
+  border: 0.0125rem;
+  background-color: rgb(253 230 138);
+  border-color: rgb(252 211 77);
+  border-radius: 0.375rem;
+}
+
+.stack-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stack-header {
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.stack-list-wrapper {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .stack-list-wrapper {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.tech-card {
+  width: 100%;
+  background-color: white;
+  padding: 1rem;
+  border: 0.375rem;
+  border: 0.0125rem;
+  border-color: rgb(245 245 245);
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.tech-card:hover {
+  scale: 1.01;
+}
+
+.tech-card-header {
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.tech-card-arrow {
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+  color: black;
+}
+
+.tech-card-desc {
+  font-size: 0.875rem /* 14px */;
+  line-height: 1.25rem /* 20px */;
+}
+
+.text-emerald-500 {
+  color: rgb(16 185 129);
+}
+
+.text-cyan-500 {
+  color: rgb(6 182 212);
+}
+
+.text-indigo-500 {
+  color: rgb(99 102 241);
+}
+
+.text-blue-500 {
+  color: rgb(59 130 246);
+}
+
+.text-orange-500 {
+  color: rgb(249 115 22);
+}

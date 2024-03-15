@@ -3,15 +3,25 @@ import "./globals.css";
 import { Root, hydrateRoot } from "react-dom/client";
 import "vinxi/client";
 
-import { StartClient } from "@tanstack/react-router-server/client";
+import {
+  type RouterManagedTag,
+  StartClient,
+} from "@tanstack/react-router-server/client";
+import { StrictMode } from "react";
 import { type ModuleNamespace } from "vite/types/hot.js";
 import { createRouter } from "./lib/router";
-import { StrictMode } from "react";
 
 render();
 
 function render(mod?: ModuleNamespace) {
   const router = createRouter({});
+
+  router.update({
+    context: {
+      ...router.options.context,
+      assets: window.__ASSETS__,
+    },
+  });
 
   const app = (
     <StrictMode>
@@ -38,5 +48,6 @@ if (import.meta.hot) {
 declare global {
   interface Window {
     $root?: Root;
+    __ASSETS__: RouterManagedTag[];
   }
 }

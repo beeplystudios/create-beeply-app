@@ -30,11 +30,6 @@ export const addSSRFiles = () => {
   );
 
   fsExtra.copyFileSync(
-    buildSSRPath("dev-style-inject.ts"),
-    buildAppPath()("lib", "dev-style-inject.ts")
-  );
-
-  fsExtra.copyFileSync(
     buildSSRPath("ssr-root-route-view.tsx"),
     buildAppPath()("features", "root-route.tsx")
   );

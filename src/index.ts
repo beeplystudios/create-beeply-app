@@ -14,7 +14,7 @@ const main = async () => {
 
   p.intro(
     ` 
-    Welcome to create-beaeply-app ${chalk.blue(
+    Welcome to create-beeply-app ${chalk.blue(
       user.charAt(0).toLocaleUpperCase() + user.slice(1, user.length)
     )}!
     Let's get you started with a new project using ${chalk.greenBright(

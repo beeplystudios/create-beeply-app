@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import type { Session, User } from "lucia";
 
 import { middleware, publicProcedure } from "../trpc";
-import { auth } from "./server/lucia";
+import { auth } from "./lucia";
 import { getCookie } from "hono/cookie";
 import { AUTH_COOKIE_NAME } from "~constants";
 

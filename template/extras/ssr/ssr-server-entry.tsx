@@ -70,17 +70,13 @@ const render = async (event: H3Event<EventHandlerRequest>) => {
     );
   }
 
-  const manifestJson = await clientManifest.json();
-
   const stream = await new Promise<PipeableStream>((resolve) => {
     const stream = renderToPipeableStream(<StartServer router={router} />, {
       onShellReady: () => resolve(stream),
       bootstrapModules: [
         clientManifest.inputs[clientManifest.handler].output.path,
       ],
-      bootstrapScriptContent: `window.manifest = ${JSON.stringify(
-        manifestJson
-      )}`,
+      bootstrapScriptContent: `window.__ASSETS__ = ${JSON.stringify(assets)};`,
     });
   });
 

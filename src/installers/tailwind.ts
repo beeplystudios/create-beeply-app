@@ -26,4 +26,9 @@ export const addTailwindFiles = () => {
     buildTwPath("globals.css"),
     buildAppPath()("globals.css")
   );
+
+  fsExtra.copyFileSync(
+    buildTwPath("tw-home-view.tsx"),
+    buildAppPath()("features", "home-view.tsx")
+  );
 };

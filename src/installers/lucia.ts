@@ -52,7 +52,7 @@ export const addLuciaFiles = (usingTrpc: boolean) => {
   if (usingTrpc) {
     fsExtra.copyFileSync(
       buildAuthPath("auth-trpc-middleware.ts"),
-      buildServerPath()("auth", "server", "authed-procedure.ts")
+      buildServerPath()("auth", "authed-procedure.ts")
     );
   }
 
@@ -69,11 +69,6 @@ export const addLuciaFiles = (usingTrpc: boolean) => {
   fsExtra.copyFileSync(
     buildAuthPath("client", "sign-in.tsx"),
     buildAppPath()("routes", "sign-in.tsx")
-  );
-
-  fsExtra.copyFileSync(
-    buildAuthPath("client", "route-tree-w-auth.tsx"),
-    buildAppPath()("routes", "route-tree.tsx")
   );
 
   updateFile({
