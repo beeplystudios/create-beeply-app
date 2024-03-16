@@ -1,6 +1,5 @@
 import fs from "fs-extra";
 import path from "path";
-import { format } from "prettier";
 import { IndentationText, Project, QuoteKind } from "ts-morph";
 import { Options } from "../cli/get-opts.js";
 import { PKG_ROOT } from "../consts.js";
@@ -10,16 +9,17 @@ import { addSSRFiles } from "../installers/ssr.js";
 import { addTailwindFiles } from "../installers/tailwind.js";
 import { addTRPCFiles } from "../installers/trpc.js";
 import { createRouterTransformer } from "../transformers/create-router-transformer.js";
+import { envFileTransformer } from "../transformers/env-file-transformer.js";
 import { envTypeTransformer } from "../transformers/env-type-transformer.js";
+import { homeViewTransformer } from "../transformers/home-view-transformer.js";
 import { honoHandlerTransformer } from "../transformers/hono-handler-transformer.js";
 import { pkgJsonTransformer } from "../transformers/pkg-json-transformer.js";
+import { prismaSchemaTransformer } from "../transformers/prisma-schema-transformer.js";
 import { routeTreeTransformer } from "../transformers/route-tree-transformer.js";
 import { routerContextTransformer } from "../transformers/router-context-transformer.js";
 import { serverEntryTransformer } from "../transformers/server-entry-transformer.js";
 import { trpcContextTransformer } from "../transformers/trpc-context-transformer.js";
-import { buildAndCommitEnv } from "./build-env.js";
 import { buildProjectPath } from "./build-path.js";
-import { homeViewTransformer } from "../transformers/home-view-transformer.js";
 
 const TRANSFORMERS = [
   createRouterTransformer,
@@ -31,6 +31,8 @@ const TRANSFORMERS = [
   serverEntryTransformer,
   trpcContextTransformer,
   homeViewTransformer,
+  prismaSchemaTransformer,
+  envFileTransformer,
 ];
 
 export const scaffoldProject = async (opts: Options) => {
@@ -60,22 +62,5 @@ export const scaffoldProject = async (opts: Options) => {
     transformer({ project, opts })
   );
 
-  await Promise.all(
-    project
-      .getSourceFiles()
-      .filter((file) => !file.isSaved())
-      .map((file) =>
-        (async () => {
-          const formattedText = await format(file.getText(), {
-            parser: "typescript",
-          });
-
-          file.replaceWithText(formattedText);
-        })()
-      )
-  );
-
   project.saveSync();
-
-  buildAndCommitEnv(opts);
 };
