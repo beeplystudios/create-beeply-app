@@ -24,9 +24,7 @@ const main = async () => {
   );
 
   const result = await getOpts();
-  p.outro(JSON.stringify(result, null, 2));
 
-  console.log("SCAFFOLDING PROJECT");
   scaffoldProject(result);
 };
 

@@ -1,8 +1,7 @@
-import fs from "fs-extra";
+import ora from "ora";
 import path from "path";
 import { IndentationText, Project, QuoteKind } from "ts-morph";
 import { Options } from "../cli/get-opts.js";
-import { PKG_ROOT } from "../consts.js";
 import { addLuciaFiles } from "../installers/lucia.js";
 import { addPrismaFiles } from "../installers/prisma.js";
 import { addSSRFiles } from "../installers/ssr.js";
@@ -20,6 +19,8 @@ import { routerContextTransformer } from "../transformers/router-context-transfo
 import { serverEntryTransformer } from "../transformers/server-entry-transformer.js";
 import { trpcContextTransformer } from "../transformers/trpc-context-transformer.js";
 import { buildProjectPath } from "./build-path.js";
+import { createBaseTemplate } from "./create-base-template.js";
+import { initializeGit } from "./init-git.js";
 
 const TRANSFORMERS = [
   createRouterTransformer,
@@ -36,9 +37,11 @@ const TRANSFORMERS = [
 ];
 
 export const scaffoldProject = async (opts: Options) => {
-  globalThis.PROJECT_DIR = path.join(process.cwd(), opts.name);
+  globalThis.PROJECT_DIR = path.join(process.cwd(), opts.name.path);
 
-  fs.copySync(path.join(PKG_ROOT, "template", "base"), PROJECT_DIR);
+  await createBaseTemplate(PROJECT_DIR);
+
+  const installerSpinner = ora("Installing selected packages").start();
 
   if (opts.shouldSSR) addSSRFiles();
   if (opts.shouldUseTailwind) addTailwindFiles();
@@ -63,4 +66,10 @@ export const scaffoldProject = async (opts: Options) => {
   );
 
   project.saveSync();
+
+  installerSpinner.succeed("Installed selected packages");
+
+  if (opts.shouldInitGit) {
+    initializeGit(PROJECT_DIR);
+  }
 };

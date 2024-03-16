@@ -32,13 +32,12 @@ model OAuthAccount {
 
 export const prismaSchemaTransformer: FileTransformer = {
   deps: (opts) => opts.shouldUseAuth as boolean,
-  transformer: ({ opts }) => {
-    const file = fsExtra.readFileSync(
-      buildProjectPath()("prisma", "schema.prisma")
-    );
+  transformer: () => {
+    const schemaPath = buildProjectPath()("prisma", "schema.prisma");
+    const file = fsExtra.readFileSync(schemaPath);
 
     fsExtra.writeFileSync(
-      buildProjectPath()("prisma", "schema.prisma"),
+      schemaPath,
       `${file.toString()}
       ${PRISMA_MODELS}
       `

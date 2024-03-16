@@ -1,15 +1,18 @@
 import * as p from "@clack/prompts";
-import chalk from "chalk";
+import { parseName, validateAppName } from "./parse-name.js";
 
 export const getOpts = async () => {
   return p.group(
     {
-      name: () =>
-        p.text({
+      name: async () => {
+        const input = await p.text({
           message: "What is the your project name?",
           placeholder: "my-beeply-app",
-          defaultValue: "test",
-        }),
+          validate: validateAppName,
+        });
+
+        return parseName(input as string);
+      },
       shouldSSR: () => p.confirm({ message: "Do you want to use SSR?" }),
       shouldUseTailwind: () =>
         p.confirm({ message: "Do you want to use TailwindCSS?" }),
@@ -22,18 +25,10 @@ export const getOpts = async () => {
             })
           : false,
       shouldUseTRPC: () => p.confirm({ message: "Do you want to use TRPC?" }),
-      // shouldDeploy: () =>
-      //   p.confirm({
-      //     message: `Do you want us to set up a Dockerfile for deployment to ${chalk.magenta(
-      //       "fly.io"
-      //     )}?`,
-      //   }),
-      // shouldInitGit: () =>
-      //   p.confirm({
-      //     message: "Do you want us to initialize a git repository?",
-      //   }),
-      // shouldInstallDeps: () =>
-      //   p.confirm({ message: "Do you want us to install dependencies?" }),
+      shouldInitGit: () =>
+        p.confirm({
+          message: "Do you want us to initialize a git repository?",
+        }),
     },
     {
       onCancel: () => {

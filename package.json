@@ -1,6 +1,6 @@
 {
   "name": "create-beeply-app",
-  "version": "0.0.1",
+  "version": "beta-0.0.1",
   "description": "",
   "type": "module",
   "main": "dist/index.js",
@@ -23,7 +23,9 @@
     "@clack/prompts": "^0.7.0",
     "@types/fs-extra": "^11.0.4",
     "chalk": "^5.3.0",
+    "execa": "^8.0.1",
     "fs-extra": "^11.2.0",
+    "ora": "^8.0.1",
     "prettier": "^3.2.5",
     "ts-morph": "^22.0.0",
     "type-fest": "^4.12.0"

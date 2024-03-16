@@ -1,5 +1,6 @@
 import fsExtra from "fs-extra";
 import path from "path";
+import { buildProjectPath } from "../helpers/build-path.js";
 import { dependencyVersionMap } from "../helpers/dep-map.js";
 import { FileTransformer } from "./transformer-type.js";
 
@@ -56,11 +57,11 @@ export const pkgJsonTransformer: FileTransformer = {
     };
 
     pkgJson = {
-      name: opts.name,
+      name: opts.name.appName,
       ...pkgJson,
     };
 
-    fsExtra.writeJSONSync(path.join(PROJECT_DIR, "package.json"), pkgJson, {
+    fsExtra.writeJSONSync(buildProjectPath()("package.json"), pkgJson, {
       spaces: 2,
     });
   },
