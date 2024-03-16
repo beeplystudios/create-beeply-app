@@ -1,6 +1,6 @@
 {
   "name": "create-beeply-app",
-  "version": "beta-0.0.1",
+  "version": null,
   "description": "",
   "type": "module",
   "main": "dist/index.js",
