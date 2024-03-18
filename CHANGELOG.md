@@ -1,5 +1,11 @@
 # create-beeply-app
 
+## 0.0.1
+
+### Patch Changes
+
+- 7348bae: fix: env file transforms & formatting
+
 ## null
 
 ### Patch Changes
