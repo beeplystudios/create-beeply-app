@@ -7,19 +7,19 @@ An interactive CLI to build a modular template for creating apps with the some o
 **npm**
 
 ```
-npm create beeply-app@latest
+npm create beeply-app@alpha
 ```
 
 **yarn**
 
 ```
-yarn create beeply-app@latest
+yarn create beeply-app@alpha
 ```
 
 **pnpm**
 
 ```
-pnpm create beeply-app@latest
+pnpm create beeply-app@alpha
 ```
 
 ### Stack
