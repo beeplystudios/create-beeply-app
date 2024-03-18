@@ -21,6 +21,7 @@ import { trpcContextTransformer } from "../transformers/trpc-context-transformer
 import { buildProjectPath } from "./build-path.js";
 import { createBaseTemplate } from "./create-base-template.js";
 import { initializeGit } from "./init-git.js";
+import { format } from "prettier";
 
 const TRANSFORMERS = [
   createRouterTransformer,
@@ -63,6 +64,21 @@ export const scaffoldProject = async (opts: Options) => {
 
   TRANSFORMERS.filter(({ deps }) => deps(opts)).forEach(({ transformer }) =>
     transformer({ project, opts })
+  );
+
+  await Promise.all(
+    project
+      .getSourceFiles()
+      .filter((file) => !file.isSaved())
+      .map((file) =>
+        (async () => {
+          const formattedText = await format(file.getText(), {
+            parser: "typescript",
+          });
+
+          file.replaceWithText(formattedText);
+        })()
+      )
   );
 
   project.saveSync();

@@ -3,7 +3,7 @@ import { FileTransformer } from "./transformer-type.js";
 import { buildProjectPath } from "../helpers/build-path.js";
 
 export const envFileTransformer: FileTransformer = {
-  deps: (opts) => opts.shouldUsePrisma || (opts.shouldUseAuth as boolean),
+  deps: () => true,
   transformer: ({ opts }) => {
     const env: Record<string, string> = {
       APP_URL: `"http://localhost:3000"`,
