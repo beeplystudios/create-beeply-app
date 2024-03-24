@@ -22,6 +22,7 @@ import { buildProjectPath } from "./build-path.js";
 import { createBaseTemplate } from "./create-base-template.js";
 import { initializeGit } from "./init-git.js";
 import { format } from "prettier";
+import { logNextSteps } from "./log-next-steps.js";
 
 const TRANSFORMERS = [
   createRouterTransformer,
@@ -86,6 +87,8 @@ export const scaffoldProject = async (opts: Options) => {
   installerSpinner.succeed("Installed selected packages");
 
   if (opts.shouldInitGit) {
-    initializeGit(PROJECT_DIR);
+    await initializeGit(PROJECT_DIR);
   }
+
+  logNextSteps(opts);
 };
