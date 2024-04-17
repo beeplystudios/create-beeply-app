@@ -3,6 +3,7 @@ import path from "path";
 import { buildProjectPath } from "../helpers/build-path.js";
 import { dependencyVersionMap } from "../helpers/dep-map.js";
 import { FileTransformer } from "./transformer-type.js";
+import { getVersion } from "../helpers/get-version.js";
 
 export const pkgJsonTransformer: FileTransformer = {
   deps: () => true,
@@ -59,6 +60,9 @@ export const pkgJsonTransformer: FileTransformer = {
     pkgJson = {
       name: opts.name.appName,
       ...pkgJson,
+      beeplyAppMeta: {
+        initVersion: getVersion(),
+      },
     };
 
     fsExtra.writeJSONSync(buildProjectPath()("package.json"), pkgJson, {
