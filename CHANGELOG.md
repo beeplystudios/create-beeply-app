@@ -1,5 +1,11 @@
 # create-beeply-app
 
+## 0.1.0-alpha.6
+
+### Minor Changes
+
+- a3ea2da: tsc on build
+
 ## 0.1.0-alpha.5
 
 ### Minor Changes
