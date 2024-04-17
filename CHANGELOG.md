@@ -1,5 +1,11 @@
 # create-beeply-app
 
+## 0.1.0-alpha.5
+
+### Minor Changes
+
+- 6fb60cb: rename gitignore dynamically
+
 ## 0.1.0-alpha.4
 
 ### Minor Changes
