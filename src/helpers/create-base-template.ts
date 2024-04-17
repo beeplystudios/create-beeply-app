@@ -4,6 +4,7 @@ import fsExtra from "fs-extra";
 import ora from "ora";
 import path from "path";
 import { PKG_ROOT } from "../consts.js";
+import { buildProjectPath } from "./build-path.js";
 
 export const createBaseTemplate = async (projectDir: string) => {
   const spinner = ora(
@@ -49,6 +50,12 @@ export const createBaseTemplate = async (projectDir: string) => {
 
   spinner.start();
   fsExtra.copySync(path.join(PKG_ROOT, "template", "base"), projectDir);
+
+  fsExtra.renameSync(
+    buildProjectPath()("_gitignore"),
+    buildProjectPath()(".gitignore")
+  );
+
   spinner.succeed(
     "Scaffolded project in " + chalk.greenBright.bold(projectDir)
   );
