@@ -5,6 +5,7 @@
     "create-beeply-app": "0.0.1-alpha.1"
   },
   "changesets": [
+    "khaki-pigs-peel",
     "mean-cameras-beam"
   ]
 }
