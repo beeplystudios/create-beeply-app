@@ -1,5 +1,11 @@
 # create-beeply-app
 
+## 0.1.0-alpha.4
+
+### Minor Changes
+
+- 6c61060: add init version to packagejson meta
+
 ## 0.1.0-alpha.3
 
 ### Minor Changes
