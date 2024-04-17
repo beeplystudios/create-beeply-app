@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "dotenv -e .env vinxi dev",
     "start": "dotenv -e .env vinxi start",
-    "build": "dotenv -e .env vinxi build"
+    "build": "dotenv -e .env tsc --noEmit && vinxi build"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.19.15",
