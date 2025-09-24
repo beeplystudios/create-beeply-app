@@ -37,10 +37,10 @@ export const pkgJsonTransformer: FileTransformer = {
     if (opts.shouldUseTRPC)
       Object.assign(dependencies, dependencyVersionMap.trpc);
 
-    // if (opts.shouldUseTailwind)
-    //   Object.assign(dependencies, dependencyVersionMap.tailwind);
+    if (opts.shouldUseTanstackQuery)
+      Object.assign(dependencies, dependencyVersionMap.tanstackQuery);
 
-    if (opts.shouldUseTRPC)
+    if (opts.shouldUseTRPC || opts.shouldUseTanstackQuery)
       Object.assign(dependencies, {
         superjson: dependencyVersionMap.superjson,
       });

@@ -23,9 +23,11 @@ import { initializeGit } from "./init-git.js";
 import { format } from "prettier";
 import { logNextSteps } from "./log-next-steps.js";
 import { FileTransformer } from "../transformers/transformer-type.js";
+import { rootRouteTransformer } from "../transformers/root-route-transformer.js";
 
 const TRANSFORMERS: FileTransformer[] = [
-  // createRouterTransformer,
+  createRouterTransformer,
+  rootRouteTransformer,
   // envTypeTransformer,
   // honoHandlerTransformer,
   pkgJsonTransformer,

@@ -13,6 +13,8 @@ export const getOpts = async () => {
 
         return parseName(input as string);
       },
+      shouldUseTanstackQuery: () =>
+        p.confirm({ message: "Do you want to use TanStack Query?" }),
       shouldUsePrisma: () =>
         p.confirm({ message: "Do you want to use Prisma?" }),
       shouldUseAuth: async (data) =>
