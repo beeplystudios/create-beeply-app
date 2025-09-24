@@ -13,9 +13,6 @@ export const getOpts = async () => {
 
         return parseName(input as string);
       },
-      shouldSSR: () => p.confirm({ message: "Do you want to use SSR?" }),
-      shouldUseTailwind: () =>
-        p.confirm({ message: "Do you want to use TailwindCSS?" }),
       shouldUsePrisma: () =>
         p.confirm({ message: "Do you want to use Prisma?" }),
       shouldUseAuth: async (data) =>

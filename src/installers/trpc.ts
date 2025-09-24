@@ -12,15 +12,25 @@ export const addTRPCFiles = () => {
     path.join(PKG_ROOT, "template", "extras", "trpc")
   );
 
-  fsExtra.copyFileSync(
-    buildTRPCPath("trpc-server.ts"),
-    buildServerPath()("trpc.ts")
-  );
-
-  fsExtra.copySync(buildTRPCPath("routes"), buildServerPath()("routes"));
+  fsExtra.mkdirSync(buildServerPath()("trpc"));
 
   fsExtra.copyFileSync(
-    buildTRPCPath("trpc-client.tsx"),
-    buildAppPath()("lib", "trpc.ts")
+    buildTRPCPath("trpc-config.ts"),
+    buildServerPath()("trpc", "trpc-config.ts")
   );
+
+  fsExtra.copyFileSync(
+    buildTRPCPath("trpc-route.ts"),
+    buildAppPath()("routes", "api", "trpc.$.ts")
+  );
+
+  fsExtra.copySync(
+    buildTRPCPath("routes"),
+    buildServerPath()("trpc", "routes")
+  );
+
+  // fsExtra.copyFileSync(
+  //   buildTRPCPath("trpc-client.tsx"),
+  //   buildAppPath()("lib", "trpc.ts")
+  // );
 };

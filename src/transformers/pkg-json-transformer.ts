@@ -12,13 +12,13 @@ export const pkgJsonTransformer: FileTransformer = {
 
     const dependencies = {};
 
-    if (opts.shouldUseAuth) {
-      Object.assign(
-        dependencies,
-        dependencyVersionMap.lucia,
-        dependencyVersionMap.typebox
-      );
-    }
+    // if (opts.shouldUseAuth) {
+    //   Object.assign(
+    //     dependencies,
+    //     dependencyVersionMap.lucia,
+    //     dependencyVersionMap.typebox
+    //   );
+    // }
 
     if (opts.shouldUsePrisma) {
       pkgJson.scripts = {
@@ -37,20 +37,13 @@ export const pkgJsonTransformer: FileTransformer = {
     if (opts.shouldUseTRPC)
       Object.assign(dependencies, dependencyVersionMap.trpc);
 
-    if (opts.shouldUseTailwind)
-      Object.assign(dependencies, dependencyVersionMap.tailwind);
+    // if (opts.shouldUseTailwind)
+    //   Object.assign(dependencies, dependencyVersionMap.tailwind);
 
-    if (opts.shouldUseTRPC || opts.shouldSSR)
+    if (opts.shouldUseTRPC)
       Object.assign(dependencies, {
         superjson: dependencyVersionMap.superjson,
       });
-
-    if (opts.shouldSSR) {
-      Object.assign(dependencies, {
-        "@tanstack/react-router-server":
-          pkgJson.dependencies["@tanstack/react-router"],
-      });
-    }
 
     pkgJson.dependencies = {
       ...pkgJson.dependencies,

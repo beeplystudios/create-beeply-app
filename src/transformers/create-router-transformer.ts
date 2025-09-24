@@ -13,11 +13,6 @@ export const createRouterTransformer: FileTransformer = {
       .getVariableDeclarationOrThrow("createRouter")
       .getInitializerIfKindOrThrow(SyntaxKind.ArrowFunction);
 
-    let createRouterArg: Record<string, string> = {
-      routeTree: "routeTree",
-      context: `${opts.shouldSSR ? "{ assets: [] }" : "{}"}`,
-    };
-
     if (opts.shouldUseTRPC) {
       routerFile.addImportDeclarations([
         {
@@ -32,10 +27,7 @@ export const createRouterTransformer: FileTransformer = {
         },
         {
           moduleSpecifier: "@tanstack/react-query",
-          namedImports: [
-            "QueryClientProvider",
-            ...(opts.shouldSSR ? ["dehydrate", "hydrate"] : []),
-          ],
+          namedImports: ["QueryClientProvider"],
         },
       ]);
 

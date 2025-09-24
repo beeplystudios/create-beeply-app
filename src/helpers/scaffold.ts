@@ -4,7 +4,6 @@ import { IndentationText, Project, QuoteKind } from "ts-morph";
 import { Options } from "../cli/get-opts.js";
 import { addLuciaFiles } from "../installers/lucia.js";
 import { addPrismaFiles } from "../installers/prisma.js";
-import { addSSRFiles } from "../installers/ssr.js";
 import { addTailwindFiles } from "../installers/tailwind.js";
 import { addTRPCFiles } from "../installers/trpc.js";
 import { createRouterTransformer } from "../transformers/create-router-transformer.js";
@@ -23,19 +22,20 @@ import { createBaseTemplate } from "./create-base-template.js";
 import { initializeGit } from "./init-git.js";
 import { format } from "prettier";
 import { logNextSteps } from "./log-next-steps.js";
+import { FileTransformer } from "../transformers/transformer-type.js";
 
-const TRANSFORMERS = [
-  createRouterTransformer,
-  envTypeTransformer,
-  honoHandlerTransformer,
+const TRANSFORMERS: FileTransformer[] = [
+  // createRouterTransformer,
+  // envTypeTransformer,
+  // honoHandlerTransformer,
   pkgJsonTransformer,
-  routeTreeTransformer,
-  routerContextTransformer,
-  serverEntryTransformer,
-  trpcContextTransformer,
-  homeViewTransformer,
-  prismaSchemaTransformer,
-  envFileTransformer,
+  // routeTreeTransformer,
+  // routerContextTransformer,
+  // serverEntryTransformer,
+  // trpcContextTransformer,
+  // homeViewTransformer,
+  // prismaSchemaTransformer,
+  // envFileTransformer,
 ];
 
 export const scaffoldProject = async (opts: Options) => {
@@ -45,11 +45,11 @@ export const scaffoldProject = async (opts: Options) => {
 
   const installerSpinner = ora("Installing selected packages").start();
 
-  if (opts.shouldSSR) addSSRFiles();
-  if (opts.shouldUseTailwind) addTailwindFiles();
-  if (opts.shouldUsePrisma) addPrismaFiles();
   if (opts.shouldUseTRPC) addTRPCFiles();
-  if (opts.shouldUseAuth) addLuciaFiles(opts.shouldUseTRPC);
+
+  // if (opts.shouldUseTailwind) addTailwindFiles();
+  // if (opts.shouldUsePrisma) addPrismaFiles();
+  // if (opts.shouldUseAuth) addLuciaFiles(opts.shouldUseTRPC);
 
   const project = new Project({
     manipulationSettings: {
