@@ -2,12 +2,6 @@ import { SyntaxKind, VariableDeclarationKind, Writers } from "ts-morph";
 import { buildAppPath } from "../helpers/build-path.js";
 import { FileTransformer } from "./transformer-type.js";
 
-//   // return createRouter({
-//   routeTree,
-//   scrollRestoration: true,
-//   defaultPreloadStaleTime: 0,
-// })
-
 export const createRouterTransformer: FileTransformer = {
   deps: () => true,
   transformer: ({ project, opts }) => {
@@ -28,6 +22,35 @@ export const createRouterTransformer: FileTransformer = {
       .at(0)!
       .asKindOrThrow(SyntaxKind.ObjectLiteralExpression);
 
+    const routerContext = routerArg
+      .getPropertyOrThrow("context")
+      .asKindOrThrow(SyntaxKind.PropertyAssignment)
+      .getInitializerIfKindOrThrow(SyntaxKind.ObjectLiteralExpression);
+
+    if (opts.shouldUseTRPC) {
+      routerFile.addImportDeclaration({
+        moduleSpecifier: "@/lib/trpc-client",
+        namedImports: ["createTRPCClient"],
+      });
+
+      getRouterFunc.insertVariableStatement(0, {
+        declarationKind: VariableDeclarationKind.Const,
+        declarations: [
+          {
+            name: "trpcClient",
+            initializer: `
+            createTRPCClient()
+
+            `,
+          },
+        ],
+      });
+
+      routerContext.addShorthandPropertyAssignment({
+        name: "trpcClient",
+      });
+    }
+
     if (opts.shouldUseTanstackQuery) {
       routerFile.addImportDeclarations([
         {
@@ -44,12 +67,13 @@ export const createRouterTransformer: FileTransformer = {
         },
       ]);
 
-      getRouterFunc.insertVariableStatement(0, {
-        declarationKind: VariableDeclarationKind.Const,
-        declarations: [
-          {
-            name: "queryClient",
-            initializer: `
+      getRouterFunc.insertVariableStatements(0, [
+        {
+          declarationKind: VariableDeclarationKind.Const,
+          declarations: [
+            {
+              name: "queryClient",
+              initializer: `
               new QueryClient({
                 defaultOptions: {
                   dehydrate: { serializeData: superjson.serialize },
@@ -61,9 +85,10 @@ export const createRouterTransformer: FileTransformer = {
               })
                 
             `,
-          },
-        ],
-      });
+            },
+          ],
+        },
+      ]);
 
       getRouterFunc.addStatements(`
             setupRouterSsrQueryIntegration({
@@ -73,114 +98,12 @@ export const createRouterTransformer: FileTransformer = {
 
         `);
 
-      routerArg.addPropertyAssignment({
-        name: "context",
-        initializer: "{ queryClient }",
+      routerContext.addShorthandPropertyAssignment({
+        name: "queryClient",
       });
     }
 
-    //   const routerFile = project.getSourceFileOrThrow(
-    //     buildAppPath()("lib", "router.tsx")
-    //   );
-
-    //   const createRouterFunc = routerFile
-    //     .getVariableDeclarationOrThrow("createRouter")
-    //     .getInitializerIfKindOrThrow(SyntaxKind.ArrowFunction);
-
-    //   if (opts.shouldUseTRPC) {
-    //     routerFile.addImportDeclarations([
-    //       {
-    //         moduleSpecifier: "./trpc",
-    //         namedImports: [
-    //           "createLinks",
-    //           "createQueryClient",
-    //           "createTRPCClient",
-    //           "createTRPCQueryUtils",
-    //           "trpc",
-    //         ],
-    //       },
-    //       {
-    //         moduleSpecifier: "@tanstack/react-query",
-    //         namedImports: ["QueryClientProvider"],
-    //       },
-    //     ]);
-
-    //     createRouterFunc.getParameters()[0]?.remove();
-    //     createRouterFunc.addParameter({
-    //       name: "opts",
-    //       type: "{ trpcLinks?: ReturnType<typeof createLinks> }",
-    //     });
-
-    //     createRouterFunc.addVariableStatements([
-    //       {
-    //         declarationKind: VariableDeclarationKind.Const,
-    //         declarations: [
-    //           {
-    //             name: "queryClient",
-    //             initializer: "createQueryClient()",
-    //           },
-    //         ],
-    //       },
-    //       {
-    //         declarationKind: VariableDeclarationKind.Const,
-    //         declarations: [
-    //           {
-    //             name: "trpcClient",
-    //             initializer: "createTRPCClient(opts.trpcLinks)",
-    //           },
-    //         ],
-    //       },
-    //       {
-    //         declarationKind: VariableDeclarationKind.Const,
-    //         declarations: [
-    //           {
-    //             name: "reactClient",
-    //             initializer:
-    //               "trpc.createClient({ links: opts.trpcLinks ? opts.trpcLinks() : createLinks()() })",
-    //           },
-    //         ],
-    //       },
-    //     ]);
-
-    //     createRouterArg.context = `
-    //     {
-    //       queryUtils: createTRPCQueryUtils({
-    //         queryClient,
-    //         client: trpcClient,
-    //       }),
-    //       ${opts.shouldSSR ? "assets: []," : ""}
-    //     }
-    //   `;
-
-    //     createRouterArg.Wrap = `(props) => (
-    //       <trpc.Provider queryClient={queryClient} client={reactClient}>
-    //         <QueryClientProvider client={queryClient}>
-    //           {props.children}
-    //         </QueryClientProvider>
-    //       </trpc.Provider>
-    //     )
-    //   `;
-
-    //     if (opts.shouldSSR) {
-    //       createRouterArg.dehydrate = `() => {
-    //       return {
-    //         queryClientState: dehydrate(queryClient)
-    //       }
-    //     }
-    //     `;
-
-    //       createRouterArg.hydrate = `(dehydratedState) => {
-    //       hydrate(queryClient, dehydratedState.queryClientState)
-    //     }
-    //     `;
-    //     }
-
-    //     createRouterArg.defaultPreloadStaleTime = "0";
-    //   }
-
     getRouterFunc.addStatements((writer) => {
-      // const writeArg = Writers.object(createRouterArg);
-
       writer.newLineIfLastNot().write("return router;");
     });
   },

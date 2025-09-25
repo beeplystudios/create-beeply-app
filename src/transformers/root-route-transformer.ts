@@ -3,28 +3,48 @@ import { buildAppPath } from "../helpers/build-path.js";
 import { FileTransformer } from "./transformer-type.js";
 
 export const rootRouteTransformer: FileTransformer = {
-  deps: (opts) => opts.shouldUseTanstackQuery,
+  deps: (opts) => opts.shouldUseTanstackQuery || opts.shouldUseTRPC,
   transformer: ({ project, opts }) => {
-    console.log("RUNNING ROUTE TREE FILE TRANSFORMER");
     const routeTreeFile = project.getSourceFileOrThrow(
       buildAppPath()("routes", "__root.tsx")
     );
 
-    routeTreeFile.addImportDeclaration({
-      moduleSpecifier: "@tanstack/react-query",
-      namedImports: ["QueryClient"],
-      isTypeOnly: true,
-    });
-
-    const routerContextType =
-      routeTreeFile.getTypeAliasOrThrow("RouterContext");
-
-    routerContextType
+    const routerContextType = routeTreeFile
+      .getTypeAliasOrThrow("RouterContext")
       .getTypeNodeOrThrow()
-      .asKindOrThrow(SyntaxKind.TypeLiteral)
-      .addProperty({
+      .asKindOrThrow(SyntaxKind.TypeLiteral);
+
+    if (opts.shouldUseTanstackQuery) {
+      routeTreeFile.addImportDeclaration({
+        moduleSpecifier: "@tanstack/react-query",
+        namedImports: ["QueryClient"],
+        isTypeOnly: true,
+      });
+
+      routerContextType.addProperty({
         name: "queryClient",
         type: "QueryClient",
       });
+    }
+
+    if (opts.shouldUseTRPC) {
+      routeTreeFile.addImportDeclarations([
+        {
+          moduleSpecifier: "@trpc/client",
+          namedImports: ["TRPCClient"],
+          isTypeOnly: true,
+        },
+        {
+          moduleSpecifier: "@/server/trpc/routes",
+          namedImports: ["TRPCRouter"],
+          isTypeOnly: true,
+        },
+      ]);
+
+      routerContextType.addProperty({
+        name: "trpcClient",
+        type: "TRPCClient<TRPCRouter>",
+      });
+    }
   },
 };

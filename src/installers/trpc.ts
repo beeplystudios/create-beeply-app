@@ -24,6 +24,11 @@ export const addTRPCFiles = () => {
     buildAppPath()("routes", "api", "trpc.$.ts")
   );
 
+  fsExtra.copyFileSync(
+    buildTRPCPath("trpc-client.ts"),
+    buildAppPath()("lib", "trpc-client.ts")
+  );
+
   fsExtra.copySync(
     buildTRPCPath("routes"),
     buildServerPath()("trpc", "routes")
