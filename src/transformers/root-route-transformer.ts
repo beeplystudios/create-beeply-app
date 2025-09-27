@@ -46,5 +46,18 @@ export const rootRouteTransformer: FileTransformer = {
         type: "TRPCClient<TRPCRouter>",
       });
     }
+
+    if (opts.shouldUseTRPC && opts.shouldUseTanstackQuery) {
+      routeTreeFile.addImportDeclaration({
+        moduleSpecifier: "@trpc/tanstack-react-query",
+        namedImports: ["TRPCOptionsProxy"],
+        isTypeOnly: true,
+      });
+
+      routerContextType.addProperty({
+        name: "trpc",
+        type: "TRPCOptionsProxy<TRPCRouter>",
+      });
+    }
   },
 };

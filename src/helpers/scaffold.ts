@@ -24,6 +24,7 @@ import { format } from "prettier";
 import { logNextSteps } from "./log-next-steps.js";
 import { FileTransformer } from "../transformers/transformer-type.js";
 import { rootRouteTransformer } from "../transformers/root-route-transformer.js";
+import { trpcClientTransformer } from "../transformers/trpc-client-transformer.js";
 
 const TRANSFORMERS: FileTransformer[] = [
   createRouterTransformer,
@@ -31,6 +32,7 @@ const TRANSFORMERS: FileTransformer[] = [
   // envTypeTransformer,
   // honoHandlerTransformer,
   pkgJsonTransformer,
+  trpcClientTransformer,
   // routeTreeTransformer,
   // routerContextTransformer,
   // serverEntryTransformer,

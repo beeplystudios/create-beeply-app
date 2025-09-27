@@ -27,6 +27,45 @@ export const createRouterTransformer: FileTransformer = {
       .asKindOrThrow(SyntaxKind.PropertyAssignment)
       .getInitializerIfKindOrThrow(SyntaxKind.ObjectLiteralExpression);
 
+    if (opts.shouldUseTRPC && opts.shouldUseTanstackQuery) {
+      routerFile.addImportDeclarations([
+        {
+          moduleSpecifier: "@trpc/tanstack-react-query",
+          namedImports: ["createTRPCOptionsProxy"],
+        },
+        {
+          moduleSpecifier: "@/lib/trpc-client",
+          namedImports: ["TRPCProvider"],
+        },
+      ]);
+
+      getRouterFunc.insertVariableStatement(0, {
+        declarationKind: VariableDeclarationKind.Const,
+        declarations: [
+          {
+            name: "serverHelpers",
+            initializer:
+              "createTRPCOptionsProxy({ client: trpcClient, queryClient })",
+          },
+        ],
+      });
+
+      routerContext.addPropertyAssignment({
+        name: "trpc",
+        initializer: "serverHelpers",
+      });
+
+      routerArg.addPropertyAssignment({
+        name: "Wrap",
+        initializer: `
+        (props) => (
+          <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
+            {props.children}
+          </TRPCProvider>
+        )`,
+      });
+    }
+
     if (opts.shouldUseTRPC) {
       routerFile.addImportDeclaration({
         moduleSpecifier: "@/lib/trpc-client",

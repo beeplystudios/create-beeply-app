@@ -12,6 +12,14 @@ export const addTRPCFiles = () => {
     path.join(PKG_ROOT, "template", "extras", "trpc")
   );
 
+  if (!fsExtra.existsSync(buildServerPath()())) {
+    fsExtra.mkdirSync(buildServerPath()());
+  }
+
+  if (!fsExtra.existsSync(buildAppPath()("lib"))) {
+    fsExtra.mkdirSync(buildAppPath()("lib"));
+  }
+
   fsExtra.mkdirSync(buildServerPath()("trpc"));
 
   fsExtra.copyFileSync(
