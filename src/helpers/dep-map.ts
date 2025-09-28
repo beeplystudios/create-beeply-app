@@ -24,5 +24,10 @@ export const dependencyVersionMap = {
     "drizzle-kit": "^0.31.5",
   },
 
+  betterAuth: {
+    "better-auth": "^1.3.18",
+    "@paralleldrive/cuid2": "^2.2.2",
+  },
+
   superjson: "^2.2.1",
 } as const;

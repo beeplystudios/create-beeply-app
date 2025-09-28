@@ -15,4 +15,5 @@ const t = initTRPC.context<TRPCContext>().create({
  * that can be used throughout the router
  */
 export const router = t.router;
+export const createTRPCMiddleware = t.middleware;
 export const publicProcedure = t.procedure;

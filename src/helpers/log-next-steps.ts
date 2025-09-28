@@ -4,17 +4,17 @@ import { Options } from "../cli/get-opts.js";
 export const logNextSteps = (opts: Options) => {
   const steps = ["Install packages"];
 
-  // if (opts.shouldUseAuth) {
-  //   steps.push(
-  //     `Edit ${chalk.blueBright(".env")} to add your ${chalk.greenBright("GOOGLE_CLIENT_ID")} and ${chalk.greenBright("GOOGLE_CLIENT_SECRET")}`
-  //   );
-  // }
+  if (opts.shouldUseDrizzle) {
+    steps.push(
+      `Edit ${chalk.blueBright(".env")} to add your ${chalk.greenBright("DATABASE_URL")} and ${chalk.greenBright("DATABASE_AUTH_TOKEN")}`
+    );
+  }
 
-  // if (opts.shouldUsePrisma) {
-  //   steps.push(
-  //     "Run your development database with `docker compose up` and sync your schema by running the `db:push` script"
-  //   );
-  // }
+  if (opts.shouldUseAuth) {
+    steps.push(
+      `Edit ${chalk.blueBright(".env")} to add your ${chalk.greenBright("GOOGLE_CLIENT_ID")} and ${chalk.greenBright("GOOGLE_CLIENT_SECRET")}`
+    );
+  }
 
   steps.push("Start your dev server by running the `dev` script`");
 

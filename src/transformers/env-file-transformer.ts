@@ -14,10 +14,10 @@ export const envFileTransformer: FileTransformer = {
       env.DATABASE_AUTH_TOKEN = `""`;
     }
 
-    // if (opts.shouldUseAuth) {
-    //   env.GOOGLE_CLIENT_ID = `""`;
-    //   env.GOOGLE_CLIENT_SECRET = `""`;
-    // }
+    if (opts.shouldUseAuth) {
+      env.GOOGLE_CLIENT_ID = `""`;
+      env.GOOGLE_CLIENT_SECRET = `""`;
+    }
 
     const envFileStream = fsExtra.createWriteStream(buildProjectPath()(".env"));
 

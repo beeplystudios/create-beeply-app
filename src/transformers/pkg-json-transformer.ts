@@ -12,20 +12,16 @@ export const pkgJsonTransformer: FileTransformer = {
 
     const dependencies = {};
 
-    // if (opts.shouldUseAuth) {
-    //   Object.assign(
-    //     dependencies,
-    //     dependencyVersionMap.lucia,
-    //     dependencyVersionMap.typebox
-    //   );
-    // }
-
     if (opts.shouldUseDrizzle) {
       Object.assign(dependencies, dependencyVersionMap.drizzle);
-      pkgJson.devDependecies = {
-        ...pkgJson.devDependecies,
+      pkgJson.devDependencies = {
+        ...pkgJson.devDependencies,
         ...dependencyVersionMap.drizzleDev,
       };
+    }
+
+    if (opts.shouldUseAuth) {
+      Object.assign(dependencies, dependencyVersionMap.betterAuth);
     }
 
     if (opts.shouldUseTRPC)

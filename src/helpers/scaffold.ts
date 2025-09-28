@@ -26,6 +26,9 @@ import { FileTransformer } from "../transformers/transformer-type.js";
 import { rootRouteTransformer } from "../transformers/root-route-transformer.js";
 import { trpcClientTransformer } from "../transformers/trpc-client-transformer.js";
 import { addDrizzleFiles } from "../installers/drizzle.js";
+import { addBetterAuthFiles } from "../installers/better-auth.js";
+import { drizzleSchemaTransformer } from "../transformers/drizzle-schema-transformer.js";
+import { authClientTransformer } from "../transformers/auth-client-transformer.js";
 
 const TRANSFORMERS: FileTransformer[] = [
   createRouterTransformer,
@@ -40,7 +43,9 @@ const TRANSFORMERS: FileTransformer[] = [
   trpcContextTransformer,
   // homeViewTransformer,
   // prismaSchemaTransformer,
+  drizzleSchemaTransformer,
   envFileTransformer,
+  authClientTransformer,
 ];
 
 export const scaffoldProject = async (opts: Options) => {
@@ -52,6 +57,7 @@ export const scaffoldProject = async (opts: Options) => {
 
   if (opts.shouldUseTRPC) addTRPCFiles();
   if (opts.shouldUseDrizzle) addDrizzleFiles();
+  if (opts.shouldUseAuth) addBetterAuthFiles(opts.shouldUseTRPC);
 
   // if (opts.shouldUseTailwind) addTailwindFiles();
   // if (opts.shouldUsePrisma) addPrismaFiles();

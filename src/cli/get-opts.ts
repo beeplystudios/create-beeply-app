@@ -17,6 +17,15 @@ export const getOpts = async () => {
         p.confirm({ message: "Do you want to use TanStack Query?" }),
       shouldUseDrizzle: () =>
         p.confirm({ message: "Do you want to use Drizzle ORM with Turso DB?" }),
+      shouldUseAuth: async (data) => {
+        return (
+          data.results.shouldUseDrizzle
+            ? p.confirm({
+                message: "Do you want to use Better Auth with Google OAuth2?",
+              })
+            : false
+        ) as Promise<boolean>;
+      },
       shouldUseTRPC: () => p.confirm({ message: "Do you want to use TRPC?" }),
       shouldInitGit: () =>
         p.confirm({
