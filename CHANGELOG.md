@@ -1,5 +1,11 @@
 # create-beeply-app
 
+## 0.1.0-alpha.8
+
+### Minor Changes
+
+- 4de2c8f: update to modern tooling
+
 ## 0.1.0-alpha.6
 
 ### Minor Changes
