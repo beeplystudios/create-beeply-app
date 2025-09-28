@@ -1,48 +1,31 @@
 import ora from "ora";
 import path from "path";
+import { format } from "prettier";
 import { IndentationText, Project, QuoteKind } from "ts-morph";
 import { Options } from "../cli/get-opts.js";
-import { addLuciaFiles } from "../installers/lucia.js";
-import { addPrismaFiles } from "../installers/prisma.js";
-import { addTailwindFiles } from "../installers/tailwind.js";
+import { addBetterAuthFiles } from "../installers/better-auth.js";
+import { addDrizzleFiles } from "../installers/drizzle.js";
 import { addTRPCFiles } from "../installers/trpc.js";
+import { authClientTransformer } from "../transformers/auth-client-transformer.js";
 import { createRouterTransformer } from "../transformers/create-router-transformer.js";
+import { drizzleSchemaTransformer } from "../transformers/drizzle-schema-transformer.js";
 import { envFileTransformer } from "../transformers/env-file-transformer.js";
-import { envTypeTransformer } from "../transformers/env-type-transformer.js";
-import { homeViewTransformer } from "../transformers/home-view-transformer.js";
-import { honoHandlerTransformer } from "../transformers/hono-handler-transformer.js";
 import { pkgJsonTransformer } from "../transformers/pkg-json-transformer.js";
-import { prismaSchemaTransformer } from "../transformers/prisma-schema-transformer.js";
-import { routeTreeTransformer } from "../transformers/route-tree-transformer.js";
-import { routerContextTransformer } from "../transformers/router-context-transformer.js";
-import { serverEntryTransformer } from "../transformers/server-entry-transformer.js";
+import { rootRouteTransformer } from "../transformers/root-route-transformer.js";
+import { FileTransformer } from "../transformers/transformer-type.js";
+import { trpcClientTransformer } from "../transformers/trpc-client-transformer.js";
 import { trpcContextTransformer } from "../transformers/trpc-context-transformer.js";
 import { buildProjectPath } from "./build-path.js";
 import { createBaseTemplate } from "./create-base-template.js";
 import { initializeGit } from "./init-git.js";
-import { format } from "prettier";
 import { logNextSteps } from "./log-next-steps.js";
-import { FileTransformer } from "../transformers/transformer-type.js";
-import { rootRouteTransformer } from "../transformers/root-route-transformer.js";
-import { trpcClientTransformer } from "../transformers/trpc-client-transformer.js";
-import { addDrizzleFiles } from "../installers/drizzle.js";
-import { addBetterAuthFiles } from "../installers/better-auth.js";
-import { drizzleSchemaTransformer } from "../transformers/drizzle-schema-transformer.js";
-import { authClientTransformer } from "../transformers/auth-client-transformer.js";
 
 const TRANSFORMERS: FileTransformer[] = [
   createRouterTransformer,
   rootRouteTransformer,
-  // envTypeTransformer,
-  // honoHandlerTransformer,
   pkgJsonTransformer,
   trpcClientTransformer,
-  // routeTreeTransformer,
-  // routerContextTransformer,
-  // serverEntryTransformer,
   trpcContextTransformer,
-  // homeViewTransformer,
-  // prismaSchemaTransformer,
   drizzleSchemaTransformer,
   envFileTransformer,
   authClientTransformer,
@@ -58,10 +41,6 @@ export const scaffoldProject = async (opts: Options) => {
   if (opts.shouldUseTRPC) addTRPCFiles();
   if (opts.shouldUseDrizzle) addDrizzleFiles();
   if (opts.shouldUseAuth) addBetterAuthFiles(opts.shouldUseTRPC);
-
-  // if (opts.shouldUseTailwind) addTailwindFiles();
-  // if (opts.shouldUsePrisma) addPrismaFiles();
-  // if (opts.shouldUseAuth) addLuciaFiles(opts.shouldUseTRPC);
 
   const project = new Project({
     manipulationSettings: {
