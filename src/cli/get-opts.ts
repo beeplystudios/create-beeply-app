@@ -15,14 +15,8 @@ export const getOpts = async () => {
       },
       shouldUseTanstackQuery: () =>
         p.confirm({ message: "Do you want to use TanStack Query?" }),
-      shouldUsePrisma: () =>
-        p.confirm({ message: "Do you want to use Prisma?" }),
-      shouldUseAuth: async (data) =>
-        data.results.shouldUsePrisma
-          ? p.confirm({
-              message: "Do you want to set up Google OAuth2 with Lucia?",
-            })
-          : false,
+      shouldUseDrizzle: () =>
+        p.confirm({ message: "Do you want to use Drizzle ORM with Turso DB?" }),
       shouldUseTRPC: () => p.confirm({ message: "Do you want to use TRPC?" }),
       shouldInitGit: () =>
         p.confirm({

@@ -20,17 +20,11 @@ export const pkgJsonTransformer: FileTransformer = {
     //   );
     // }
 
-    if (opts.shouldUsePrisma) {
-      pkgJson.scripts = {
-        ...pkgJson.scripts,
-        postinstall: "prisma generate",
-        "db:push": "prisma db push",
-        "db:reset": "prisma migrate reset && prisma db push",
-      };
-
-      pkgJson.devDependencies = {
-        ...pkgJson.devDependencies,
-        prisma: dependencyVersionMap.prisma,
+    if (opts.shouldUseDrizzle) {
+      Object.assign(dependencies, dependencyVersionMap.drizzle);
+      pkgJson.devDependecies = {
+        ...pkgJson.devDependecies,
+        ...dependencyVersionMap.drizzleDev,
       };
     }
 

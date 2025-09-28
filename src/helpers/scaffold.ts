@@ -25,6 +25,7 @@ import { logNextSteps } from "./log-next-steps.js";
 import { FileTransformer } from "../transformers/transformer-type.js";
 import { rootRouteTransformer } from "../transformers/root-route-transformer.js";
 import { trpcClientTransformer } from "../transformers/trpc-client-transformer.js";
+import { addDrizzleFiles } from "../installers/drizzle.js";
 
 const TRANSFORMERS: FileTransformer[] = [
   createRouterTransformer,
@@ -39,7 +40,7 @@ const TRANSFORMERS: FileTransformer[] = [
   // trpcContextTransformer,
   // homeViewTransformer,
   // prismaSchemaTransformer,
-  // envFileTransformer,
+  envFileTransformer,
 ];
 
 export const scaffoldProject = async (opts: Options) => {
@@ -50,6 +51,7 @@ export const scaffoldProject = async (opts: Options) => {
   const installerSpinner = ora("Installing selected packages").start();
 
   if (opts.shouldUseTRPC) addTRPCFiles();
+  if (opts.shouldUseDrizzle) addDrizzleFiles();
 
   // if (opts.shouldUseTailwind) addTailwindFiles();
   // if (opts.shouldUsePrisma) addPrismaFiles();

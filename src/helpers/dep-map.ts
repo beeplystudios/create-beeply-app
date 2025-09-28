@@ -15,5 +15,14 @@ export const dependencyVersionMap = {
     "@trpc/tanstack-react-query": "^11.5.1",
   },
 
+  drizzle: {
+    "drizzle-orm": "^0.44.5",
+    "@libsql/client": "^0.15.15",
+  },
+
+  drizzleDev: {
+    "drizzle-kit": "^0.31.5",
+  },
+
   superjson: "^2.2.1",
 } as const;

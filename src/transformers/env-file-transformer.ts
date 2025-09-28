@@ -9,14 +9,15 @@ export const envFileTransformer: FileTransformer = {
       APP_URL: `"http://localhost:3000"`,
     };
 
-    if (opts.shouldUsePrisma) {
-      env.DATABASE_URL = `"postgres://postgres:prisma@localhost:5432"`;
+    if (opts.shouldUseDrizzle) {
+      env.DATABASE_URL = `""`;
+      env.DATABASE_AUTH_TOKEN = `""`;
     }
 
-    if (opts.shouldUseAuth) {
-      env.GOOGLE_CLIENT_ID = `""`;
-      env.GOOGLE_CLIENT_SECRET = `""`;
-    }
+    // if (opts.shouldUseAuth) {
+    //   env.GOOGLE_CLIENT_ID = `""`;
+    //   env.GOOGLE_CLIENT_SECRET = `""`;
+    // }
 
     const envFileStream = fsExtra.createWriteStream(buildProjectPath()(".env"));
 
