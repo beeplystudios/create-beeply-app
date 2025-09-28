@@ -37,7 +37,7 @@ const TRANSFORMERS: FileTransformer[] = [
   // routeTreeTransformer,
   // routerContextTransformer,
   // serverEntryTransformer,
-  // trpcContextTransformer,
+  trpcContextTransformer,
   // homeViewTransformer,
   // prismaSchemaTransformer,
   envFileTransformer,
